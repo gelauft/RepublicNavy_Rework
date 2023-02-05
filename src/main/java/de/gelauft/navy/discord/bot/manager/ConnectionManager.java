@@ -40,7 +40,7 @@ public class ConnectionManager {
     }
 
     public Connection getConnection() {
-        checkConnection();
+        this.checkConnection();
         return this.connection;
     }
 
@@ -55,7 +55,10 @@ public class ConnectionManager {
 
     public void disconnect() {
         try {
-            if (this.connection != null) this.connection.close();
+            if (this.connection != null) {
+                this.connection.close();
+                System.out.println("[MySQL] Verbindung wurde getrennt.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

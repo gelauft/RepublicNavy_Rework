@@ -1,5 +1,7 @@
 package de.gelauft.navy.discord.bot;
 
+import de.gelauft.navy.discord.bot.listener.GuildMemberListener;
+import de.gelauft.navy.discord.bot.listener.SelectionListener;
 import de.gelauft.navy.discord.bot.manager.*;
 import de.gelauft.navy.discord.bot.objects.config.ChannelConfigObject;
 import de.gelauft.navy.discord.bot.objects.config.ConfigObject;
@@ -9,6 +11,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
@@ -24,7 +27,7 @@ import java.io.InputStreamReader;
  */
 
 @Getter
-public class Bot {
+public class Bot extends ListenerAdapter {
 
     private static Bot instance;
     private static JDA jda;
@@ -35,6 +38,7 @@ public class Bot {
     private final ConnectionManager connectionManager;
     private final CommandManager commandManager;
     private final PermissionManager permissionManager;
+    private final MemberManager memberManager;
 
     public Bot() throws LoginException, InterruptedException {
         instance = this;
@@ -72,6 +76,7 @@ public class Bot {
         this.registerPermissionGroups();
 
         //initialize managers
+        this.memberManager = new MemberManager();
 
         System.out.println("[Sondereinsatzbot] Bot has been started.");
         this.shutdown();
@@ -98,7 +103,8 @@ public class Bot {
     }
 
     private void registerListener() {
-        //register listener
+        jda.addEventListener(new GuildMemberListener());
+        jda.addEventListener(new SelectionListener());
     }
 
     private void registerPermissionGroups() {
