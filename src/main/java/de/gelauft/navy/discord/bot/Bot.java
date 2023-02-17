@@ -39,6 +39,7 @@ public class Bot extends ListenerAdapter {
     private final CommandManager commandManager;
     private final PermissionManager permissionManager;
     private final MemberManager memberManager;
+    private final VoteManager voteManager;
 
     public Bot() throws LoginException, InterruptedException {
         instance = this;
@@ -77,6 +78,7 @@ public class Bot extends ListenerAdapter {
 
         //initialize managers
         this.memberManager = new MemberManager();
+        this.voteManager = new VoteManager();
 
         System.out.println("[Sondereinsatzbot] Bot has been started.");
         this.shutdown();
