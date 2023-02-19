@@ -1,5 +1,7 @@
 package de.gelauft.navy.discord.bot;
 
+import de.gelauft.navy.discord.bot.commands.VoteCommand;
+import de.gelauft.navy.discord.bot.listener.ButtonClickListener;
 import de.gelauft.navy.discord.bot.listener.GuildMemberListener;
 import de.gelauft.navy.discord.bot.listener.SelectionListener;
 import de.gelauft.navy.discord.bot.manager.*;
@@ -101,12 +103,13 @@ public class Bot extends ListenerAdapter {
     }
 
     private void registerCommands() {
-        //register commands
+        this.commandManager.registerCommand(new VoteCommand());
     }
 
     private void registerListener() {
         jda.addEventListener(new GuildMemberListener());
         jda.addEventListener(new SelectionListener());
+        jda.addEventListener(new ButtonClickListener());
     }
 
     private void registerPermissionGroups() {
