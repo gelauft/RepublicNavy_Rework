@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -42,7 +43,8 @@ public class Bot extends ListenerAdapter {
     private final PermissionManager permissionManager;
     private final MemberManager memberManager;
     private final VoteManager voteManager;
-    private final StrikeManager strikeManager;
+    private final PunishmentManager punishmentManager;
+    private final LogManager logManager;
 
     public Bot() throws LoginException, InterruptedException {
         instance = this;
@@ -82,7 +84,10 @@ public class Bot extends ListenerAdapter {
         //initialize managers
         this.memberManager = new MemberManager();
         this.voteManager = new VoteManager();
-        this.strikeManager = new StrikeManager();
+        this.punishmentManager = new PunishmentManager();
+        Guild guild = jda.getGuildById(this.config.getGuildId());
+        this.logManager = new LogManager(guild.getTextChannelById(this.channelConfig.getChannelByName("internalLog").getChannelId()),
+                guild.getTextChannelById(this.channelConfig.getChannelByName("publicLog").getChannelId()));
 
         System.out.println("[Sondereinsatzbot] Bot has been started.");
         this.shutdown();

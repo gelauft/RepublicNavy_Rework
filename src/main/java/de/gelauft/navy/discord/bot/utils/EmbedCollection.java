@@ -28,4 +28,9 @@ public class EmbedCollection {
         return new EmbedBuilder().setTitle("Subcommand benötigt!")
                 .setDescription("Du musst einen Subcommand angeben, den du nutzen willst.").setColor(Color.red);
     }
+
+    public static EmbedBuilder getCommandNotFoundEb() {
+        return new EmbedBuilder().addField("Befehl nicht gefunden!", "Der Befehl mit diesem Namen wurde nicht gefunden,",
+                false).setColor(Color.red);
+    }
 }
