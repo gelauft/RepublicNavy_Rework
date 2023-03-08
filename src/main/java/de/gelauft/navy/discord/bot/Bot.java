@@ -2,6 +2,7 @@ package de.gelauft.navy.discord.bot;
 
 import de.gelauft.navy.discord.bot.commands.VoteCommand;
 import de.gelauft.navy.discord.bot.listener.ButtonClickListener;
+import de.gelauft.navy.discord.bot.listener.ChannelListener;
 import de.gelauft.navy.discord.bot.listener.GuildMemberListener;
 import de.gelauft.navy.discord.bot.listener.SelectionListener;
 import de.gelauft.navy.discord.bot.manager.*;
@@ -44,6 +45,7 @@ public class Bot extends ListenerAdapter {
     private final MemberManager memberManager;
     private final VoteManager voteManager;
     private final PunishmentManager punishmentManager;
+    private final ChannelManager channelManager;
     private final LogManager logManager;
 
     public Bot() throws LoginException, InterruptedException {
@@ -88,6 +90,7 @@ public class Bot extends ListenerAdapter {
         Guild guild = jda.getGuildById(this.config.getGuildId());
         this.logManager = new LogManager(guild.getTextChannelById(this.channelConfig.getChannelByName("internalLog").getChannelId()),
                 guild.getTextChannelById(this.channelConfig.getChannelByName("publicLog").getChannelId()));
+        this.channelManager = new ChannelManager();
 
         System.out.println("[Sondereinsatzbot] Bot has been started.");
         this.shutdown();
@@ -117,6 +120,7 @@ public class Bot extends ListenerAdapter {
         jda.addEventListener(new GuildMemberListener());
         jda.addEventListener(new SelectionListener());
         jda.addEventListener(new ButtonClickListener());
+        jda.addEventListener(new ChannelListener());
     }
 
     private void registerPermissionGroups() {
@@ -129,6 +133,7 @@ public class Bot extends ListenerAdapter {
             String input = br.readLine();
             if (input.matches("stop")) {
                 this.connectionManager.disconnect();
+                this.channelManager.closeAllChannels();
                 jda.shutdown();
                 System.exit(0);
             }
