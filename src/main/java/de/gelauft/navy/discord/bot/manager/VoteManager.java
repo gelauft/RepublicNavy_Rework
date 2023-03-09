@@ -108,14 +108,14 @@ public class VoteManager {
         for (Option option : options) {
             int votes = runningVote.getVoters().stream().filter(voter -> voter.getChosenOption() == option.getId())
                     .toList().size();
-            option.setId(votes);
+            option.setVoters(votes);
         }
 
         EmbedBuilder eb = new EmbedBuilder().setTitle("Abstimmung - " + runningVote.getTitle()).setColor(Color.blue)
                 .setDescription("Die Zeit ist abgelaufen, die Stimmen wurden ausgewertet.");
         for (int i = 0; i <= options.size(); i++) {
             Option option = options.get(i);
-            eb.addField(option.getLabel(), option.getVotes() + "(" + option.getVotes() / totalVotes + "%)", false);
+            eb.addField(option.getLabel(), option.getVotes() + "(" + ((option.getVotes() / totalVotes) * 100) + "%)", false);
         }
 
         guild.getTextChannelById(runningVote.getChannelId()).sendMessageEmbeds(eb.build())
