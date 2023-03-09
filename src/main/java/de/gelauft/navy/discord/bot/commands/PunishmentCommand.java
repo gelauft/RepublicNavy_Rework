@@ -150,7 +150,7 @@ public class PunishmentCommand implements ICommand {
                 .filter(punishment -> punishment.getTargetId() == ctx.getEvent().getOption("user").getAsUser()
                         .getIdLong()).toList();
         List<Punishment> blacklists = punishments.stream().filter(punishment -> punishment.getPunishmentType()
-                == PunishmentType.STRIKE.BLACKLIST).toList();
+                == PunishmentType.BLACKLIST).toList();
         List<Punishment> kicks = punishments.stream().filter(punishment -> punishment.getPunishmentType()
                 == PunishmentType.KICK).toList();
         List<Punishment> strikes = punishments.stream().filter(punishment -> punishment.getPunishmentType()
