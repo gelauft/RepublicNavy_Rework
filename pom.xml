@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.gelauft</groupId>
-    <artifactId>RepublicNavy</artifactId>
+    <artifactId>AoC_DiscordBot</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -93,7 +93,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>de.gelauft.navy.discord.bot.Bot</mainClass>
+                                    <mainClass>de.gelauft.aoc.discord.bot.Bot</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
